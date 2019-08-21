@@ -34,8 +34,11 @@ const createMainWindow = async () => {
 	const win = new BrowserWindow({
 		title: app.getName(),
 		show: false,
-		width: 600,
-		height: 400
+		width: 800,
+		height: 600,
+		webPreferences: {
+            nodeIntegration: true
+        }
 	});
 
 	win.on('ready-to-show', () => {
@@ -84,7 +87,4 @@ app.on('activate', () => {
 	await app.whenReady();
 	Menu.setApplicationMenu(menu);
 	mainWindow = await createMainWindow();
-
-	const favoriteAnimal = config.get('favoriteAnimal');
-	mainWindow.webContents.executeJavaScript(`document.querySelector('header p').textContent = 'Your favorite animal is ${favoriteAnimal}'`);
 })();

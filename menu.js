@@ -1,6 +1,6 @@
 'use strict';
 const path = require('path');
-const {app, Menu, shell} = require('electron');
+const {app, Menu, shell, dialog, ipcMain} = require('electron');
 const {
 	is,
 	appMenu,
@@ -129,23 +129,28 @@ const macosTemplate = [
 	}
 ];
 
+function selectTraceFile() {
+	dialog.showOpenDialog(
+		{ properties: ['openFile'] },
+		(fileNames) => {
+			if (fileNames && fileNames.length > 0) {
+				let fileName = fileNames[0];
+				console.log(fileName);
+				ipcMain.send('open-file', fileName);
+			}
+
+		}
+	);
+}
+
 // Linux and Windows
 const otherTemplate = [
 	{
 		role: 'fileMenu',
 		submenu: [
 			{
-				label: 'Custom'
-			},
-			{
-				type: 'separator'
-			},
-			{
-				label: 'Settings',
-				accelerator: 'Control+,',
-				click() {
-					showPreferences();
-				}
+				label: 'Open file',
+				click: () => selectTraceFile()
 			},
 			{
 				type: 'separator'
