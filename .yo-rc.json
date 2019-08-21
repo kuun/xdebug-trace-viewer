@@ -1,0 +1,8 @@
+{
+  "generator-electron": {
+    "promptValues": {
+      "githubUsername": "kuun",
+      "website": "http://github.com/kuun"
+    }
+  }
+}
