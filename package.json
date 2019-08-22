@@ -26,7 +26,8 @@
 		"electron-unhandled": "^2.2.0",
 		"electron-updater": "^4.0.6",
 		"electron-util": "^0.12.0",
-		"jquery": "^3.4.1"
+		"jquery": "^3.4.1",
+		"jspanel4": "^4.7.0"
 	},
 	"devDependencies": {
 		"electron": "5.0.9",
