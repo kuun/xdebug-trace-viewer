@@ -31,9 +31,7 @@ $(function () {
 			{ field: 'file', caption: 'File', size: '30%' },
 			{ field: 'includeFile', caption: 'Include File', size: '100px' }
 		],
-		records: [
-			//{ recid: 1, fname: 'John', lname: 'doe', email: 'jdoe@gmail.com', sdate: '4/3/2012', w2ui: { children: [] }}
-		]
+		records: []
 	});
 	w2ui['grid'].refresh();
 
@@ -87,6 +85,10 @@ $(function () {
 			if (line.startsWith('TRACE START')) {
 				continue;
 			}
+			if (!line.match(/^\d+\t\d+\t/)) {
+				console.log('skip invalid line: ' + line);
+				continue;
+			}
 
 			let callInfo = parseLine(line);
 			callInfo.w2ui = { children: [] };
@@ -134,8 +136,8 @@ $(function () {
 
 	ipcRenderer.on('open-file', async (event, fileName) => {
 		let records = await parseTraceFile(fileName);
-		w2ui.grid.add(records);
 		w2ui.grid.clear();
+		w2ui.grid.add(records);
 		w2ui.grid.refresh();
 	});
 });
