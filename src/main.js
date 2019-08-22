@@ -31,7 +31,34 @@ $(function () {
 			{ field: 'file', caption: 'File', size: '30%' },
 			{ field: 'includeFile', caption: 'Include File', size: '100px' }
 		],
-		records: []
+		records: [],
+		toolbar: {
+			items: [
+				{
+					type    : 'button',
+					id        : 'expand',
+					caption    : w2utils.lang('Expand'),
+					hint    : w2utils.lang('Expand children nodes'),
+					onClick: () => {
+						// TODO: expand all nodes
+						let grid = w2ui.grid;
+						let selected = grid.getSelection();
+						if (selected && selected.length > 0) {
+							let expandChildren = (grid, record) => {
+								grid.expand(record.recid);
+								if (record.w2ui.children.length > 0) {
+									for (let childRecord of record.w2ui.children) {
+										expandChildren(grid, childRecord);
+									}
+								}
+							}
+							expandChildren(grid, grid.get(selected[0]));
+						}
+					}
+				}
+			],
+			tooltip: 'bottom'
+		}
 	});
 	w2ui['grid'].refresh();
 
