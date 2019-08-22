@@ -1,6 +1,6 @@
 'use strict';
 const path = require('path');
-const {app, Menu, shell, dialog, ipcMain} = require('electron');
+const {app, Menu, shell, dialog} = require('electron');
 const {
 	is,
 	appMenu,
@@ -15,14 +15,16 @@ const showPreferences = () => {
 	// Show the app's preferences here
 };
 
+let mainWindow;
+
 const helpSubmenu = [
 	openUrlMenuItem({
 		label: 'Website',
-		url: 'https://github.com/kuun/undefined'
+		url: 'https://github.com/kuun/xdebug-trace-viwer'
 	}),
 	openUrlMenuItem({
 		label: 'Source Code',
-		url: 'https://github.com/kuun/undefined'
+		url: 'https://github.com/kuun/xdebug-trace-viwer'
 	}),
 	{
 		label: 'Report an Issue…',
@@ -115,9 +117,6 @@ const macosTemplate = [
 		]
 	},
 	{
-		role: 'editMenu'
-	},
-	{
 		role: 'viewMenu'
 	},
 	{
@@ -136,7 +135,7 @@ function selectTraceFile() {
 			if (fileNames && fileNames.length > 0) {
 				let fileName = fileNames[0];
 				console.log(fileName);
-				ipcMain.send('open-file', fileName);
+				mainWindow.webContents.send('open-file', fileName);
 			}
 
 		}
@@ -161,9 +160,6 @@ const otherTemplate = [
 		]
 	},
 	{
-		role: 'editMenu'
-	},
-	{
 		role: 'viewMenu'
 	},
 	{
@@ -181,4 +177,7 @@ if (is.development) {
 	});
 }
 
-module.exports = Menu.buildFromTemplate(template);
+module.exports = {
+	menu: Menu.buildFromTemplate(template),
+	setMainWindow: (window) => mainWindow = window
+};

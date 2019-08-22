@@ -38,7 +38,7 @@ const createMainWindow = async () => {
 		height: 600,
 		webPreferences: {
             nodeIntegration: true
-        }
+		}
 	});
 
 	win.on('ready-to-show', () => {
@@ -85,6 +85,7 @@ app.on('activate', () => {
 
 (async () => {
 	await app.whenReady();
-	Menu.setApplicationMenu(menu);
 	mainWindow = await createMainWindow();
+	menu.setMainWindow(mainWindow);
+	Menu.setApplicationMenu(menu.menu);
 })();
