@@ -20,6 +20,8 @@
 		"release": "np"
 	},
 	"dependencies": {
+		"bootstrap": "^4.3.1",
+		"ejs": "^2.6.2",
 		"electron-context-menu": "^0.12.1",
 		"electron-debug": "^3.0.0",
 		"electron-store": "^3.3.0",
