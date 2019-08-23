@@ -1,8 +1,51 @@
-const { ipcRenderer } = require('electron');
+const {ipcRenderer} = require('electron');
 const readline = require('readline');
 const fs = require('fs');
+const ejs = require('ejs');
 
 $(function () {
+	let detailPanel
+	let showDetail = false
+
+	jsPanel.ziBase = 500;
+
+	function openDetailPanel () {
+		if (!detailPanel) {
+			detailPanel = jsPanel.create({
+				headerTitle: 'Function call details',
+				theme: 'light',
+				position: 'right-bottom',
+				contentSize: '550 700',
+				contentOverflow: 'auto',
+				headerControls: 'closeonly xs',
+				content: '<div id="functionDetails"></div>',
+				onclosed: () => {
+					detailPanel = undefined;
+				}
+			});
+		}
+	}
+
+	function closeDetailPanel () {
+		if (detailPanel) {
+			detailPanel.close();
+			detailPanel = undefined;
+		}
+	}
+
+	function updateDetail(record) {
+		if (showDetail) {
+			openDetailPanel();
+			ejs.renderFile('src/views/FunctionCallDetails.ejs', {record}, {root: 'src'}, (err, str) => {
+				if (err) {
+					console.log('failed to render template, ', err);
+					return;
+				}
+				$('#functionDetails').html(str);
+			});
+		}
+	}
+
 	$('#layout').w2layout({
 		name: 'layout',
 		panels: [
@@ -10,8 +53,8 @@ $(function () {
 				type: 'main', style: 'border-top: 0px;', content: '<div id="grid"></div>'
 			}
 		]
-	});
-	w2ui.layout.show('main');
+	})
+	w2ui.layout.show('main')
 
 	$('#grid').w2grid({
 		name: 'grid',
@@ -20,50 +63,51 @@ $(function () {
 			footer: true
 		},
 		columns: [
-			{ field: 'level', caption: 'Level', size: '150px' },
-			{ field: 'funcNumber', caption: 'Function Number', size: '100px' },
-			{ field: 'time', caption: 'Time', size: '100px' },
-			{ field: 'timeUsage', caption: 'Time Usage', size: '100px', render: (record) => record.timeUsage.toFixed(6)},
-			{ field: 'mem', caption: 'Mem', size: '100px' },
-			{ field: 'memDelta', caption: 'Mem Delta', size: '100px'},
-			{ field: 'function', caption: 'Function', size: '30%' },
-			{ field: 'isUserDefined', caption: 'User Defined', size: '100px' },
-			{ field: 'file', caption: 'File', size: '30%' },
-			{ field: 'includeFile', caption: 'Include File', size: '100px' }
+			{field: 'level', caption: 'Level', size: '150px'},
+			{field: 'funcNumber', caption: 'Function Number', size: '100px'},
+			{field: 'time', caption: 'Time', size: '100px'},
+			{field: 'timeUsage', caption: 'Time Usage', size: '100px'},
+			{field: 'mem', caption: 'Mem', size: '100px'},
+			{field: 'memDelta', caption: 'Mem Delta', size: '100px'},
+			{field: 'function', caption: 'Function', size: '30%'},
+			{field: 'isUserDefined', caption: 'User Defined', size: '100px'},
+			{field: 'file', caption: 'File', size: '30%'},
+			{field: 'includeFile', caption: 'Include File', size: '100px'}
 		],
 		records: [],
 		toolbar: {
 			items: [
 				{
-					type    : 'button',
-					id        : 'expand',
-					caption    : w2utils.lang('Expand'),
-					hint    : w2utils.lang('Expand children nodes'),
+					type: 'check',
+					id: 'showDetail',
+					caption: w2utils.lang('Details'),
+					hint: w2utils.lang('Show function call details'),
 					onClick: () => {
-						// TODO: expand all nodes
-						let grid = w2ui.grid;
-						let selected = grid.getSelection();
-						if (selected && selected.length > 0) {
-							let expandChildren = (grid, record) => {
-								grid.expand(record.recid);
-								if (record.w2ui.children.length > 0) {
-									for (let childRecord of record.w2ui.children) {
-										expandChildren(grid, childRecord);
-									}
-								}
+						showDetail = !showDetail;
+						if (showDetail) {
+							let grid = w2ui.grid
+							let selected = grid.getSelection()
+							if (selected && selected.length > 0) {
+								let record = grid.get(selected[0]);
+								updateDetail(record);
 							}
-							expandChildren(grid, grid.get(selected[0]));
+						} else {
+							closeDetailPanel();
 						}
 					}
 				}
 			],
 			tooltip: 'bottom'
+		},
+		onSelect: (event) => {
+			let record = w2ui.grid.get(event.recid);
+			updateDetail(record);
 		}
-	});
-	w2ui['grid'].refresh();
+	})
+	w2ui.grid.refresh();
 
-	function parseLine(line) {
-		let fields = line.split('\t', 30);
+	function parseLine (line) {
+		let fields = line.split('\t', 30)
 		let callInfo = {
 			level: parseInt(fields[0]),
 			funcNumber: parseInt(fields[1]),
@@ -71,100 +115,100 @@ $(function () {
 		}
 		if (callInfo.funcState === '0') {
 			// function enter
-			callInfo.time = parseFloat(fields[3]);
-			callInfo.mem = parseInt(fields[4]);
-			callInfo.function = fields[5];
-			callInfo.isUserDefined = fields[6] === '1';
-			callInfo.includeFile = fields[7];
-			callInfo.file = fields[8] + ':' + fields[9];
-			callInfo.arguments = [];
-			let argumentCount = parseInt(fields[10]);
+			callInfo.time = parseFloat(fields[3])
+			callInfo.mem = parseInt(fields[4])
+			callInfo.function = fields[5]
+			callInfo.isUserDefined = fields[6] === '1'
+			callInfo.includeFile = fields[7]
+			callInfo.file = fields[8] + ':' + fields[9]
+			callInfo.arguments = []
+			let argumentCount = parseInt(fields[10])
 			for (let i = 0; i < argumentCount; i++) {
-				callInfo.arguments.push(fields[i + 11]);
+				callInfo.arguments.push(fields[i + 11])
 			}
 		} else if (callInfo.funcState === '1') {
-			callInfo.time = fields[3];
-			callInfo.mem = fields[4];
+			callInfo.time = fields[3]
+			callInfo.mem = fields[4]
 		} else {
-			callInfo.returnVal = fields[3];
+			callInfo.returnVal = fields[3]
 		}
-		return callInfo;
+		return callInfo
 	}
 
-	async function parseTraceFile(fileName) {
-		let records = [];
-		let stack = [];
-		let nextRecordId = 1;
+	async function parseTraceFile (fileName) {
+		let records = []
+		let stack = []
+		let nextRecordId = 1
 		let lineReader = readline.createInterface({
 			input: fs.createReadStream(fileName),
 			crlfDelay: Infinity
-		});
+		})
 		for await (const line of lineReader) {
 			if (line.startsWith("Version: ")) {
-				continue;
+				continue
 			}
 			if (line.startsWith('File format:')) {
 				if (line !== 'File format: 4') {
-					throw 'unsupported trace format, trace format must be 4';
+					throw 'unsupported trace format, trace format must be 4'
 				}
-				continue;
+				continue
 			}
 			if (line.startsWith('TRACE START')) {
-				continue;
+				continue
 			}
 			if (!line.match(/^\d+\t\d+\t/)) {
-				console.log('skip invalid line: ' + line);
-				continue;
+				console.log('skip invalid line: ' + line)
+				continue
 			}
 
-			let callInfo = parseLine(line);
-			callInfo.w2ui = { children: [] };
-			let lastCall;
+			let callInfo = parseLine(line)
+			callInfo.w2ui = {children: []}
+			let lastCall
 			if (stack.length > 0) {
-				lastCall = stack[stack.length - 1];
+				lastCall = stack[stack.length - 1]
 			}
 			if (callInfo.funcState === '0') {
-				callInfo.recid = nextRecordId++;
+				callInfo.recid = nextRecordId++
 				if (lastCall) {
 
 					if (callInfo.level === lastCall.level) {
-						callInfo.caller = lastCall.caller;
+						callInfo.caller = lastCall.caller
 					} else {
-						callInfo.caller = lastCall;
+						callInfo.caller = lastCall
 					}
 				}
 				if (!callInfo.caller) {
-					records.push(callInfo);
+					records.push(callInfo)
 				} else {
-					callInfo.caller.w2ui.children.push(callInfo);
+					callInfo.caller.w2ui.children.push(callInfo)
 				}
-				stack.push(callInfo);
+				stack.push(callInfo)
 			} else if (callInfo.funcState === '1') {
 				while (callInfo.funcNumber !== lastCall.funcNumber && lastCall.exit) {
-					stack.pop();
-					lastCall = stack[stack.length - 1];
+					stack.pop()
+					lastCall = stack[stack.length - 1]
 				}
-				lastCall.timeUsage = callInfo.time - lastCall.time;
-				lastCall.memDelta = callInfo.mem - lastCall.mem;
-				lastCall.exit = true;
+				lastCall.timeUsage = (callInfo.time - lastCall.time).toFixed(6);
+				lastCall.memDelta = callInfo.mem - lastCall.mem
+				lastCall.exit = true
 
 			} else {
 				while (callInfo.funcNumber !== lastCall.funcNumber && lastCall.exit) {
-					stack.pop();
-					lastCall = stack[stack.length - 1];
+					stack.pop()
+					lastCall = stack[stack.length - 1]
 				}
-				lastCall.returnVal = callInfo.returnVal;
-				stack.pop();
+				lastCall.returnVal = callInfo.returnVal
+				stack.pop()
 			}
 		}
-		lineReader.close();
-		return records;
+		lineReader.close()
+		return records
 	}
 
 	ipcRenderer.on('open-file', async (event, fileName) => {
-		let records = await parseTraceFile(fileName);
-		w2ui.grid.clear();
-		w2ui.grid.add(records);
-		w2ui.grid.refresh();
-	});
-});
+		let records = await parseTraceFile(fileName)
+		w2ui.grid.clear()
+		w2ui.grid.add(records)
+		w2ui.grid.refresh()
+	})
+})

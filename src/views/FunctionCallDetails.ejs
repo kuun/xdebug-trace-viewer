@@ -1,0 +1,55 @@
+<table class="table table-sm table-striped table-bordered">
+	<tbody>
+	<tr>
+		<th scope="row">Function name</th>
+		<td><%= record.function %></td>
+	</tr>
+	<tr>
+		<th scope="row">Start time</th>
+		<td><%= record.time %></td>
+	</tr>
+	<tr>
+		<th scope="row">Time usage</th>
+		<td><%= record.timeUsage %></td>
+	</tr>
+	<tr>
+		<th scope="row">Current memory</th>
+		<td><%= record.mem %></td>
+	</tr>
+	<tr>
+		<th scope="row">Memory delta</th>
+		<td><%= record.memDelta %></td>
+	</tr>
+	<tr>
+		<th scope="row">User function</th>
+		<td><%= record.isUserDefined %></td>
+	</tr>
+	<tr>
+		<th scope="row">File</th>
+		<td><%= record.file %></td>
+	</tr>
+	<tr>
+		<th scope="row">Include file</th>
+		<td><%= record.includeFile %></td>
+	</tr>
+	<tr>
+		<th scope="row">Argument count</th>
+		<td><%= record.arguments.length %></td>
+	</tr>
+	<tr>
+		<th scope="row">Arguments</th>
+		<td>
+			<% for (let i = 0; i < record.arguments.length; i++) { %>
+			    <% if (i > 0) { %>
+					<div class="horizonLine"></div>
+				<% }%>
+			    <%= record.arguments[i] %>
+			<% } %>
+		</td>
+	</tr>
+	<tr>
+		<th scope="row">Return</th>
+		<td><%= record.returnVal %></td>
+	</tr>
+	</tbody>
+</table>
