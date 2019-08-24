@@ -2,6 +2,7 @@ const {ipcRenderer} = require('electron');
 const readline = require('readline');
 const fs = require('fs');
 const ejs = require('ejs');
+const MainPage = require('./src/views/MainPage');
 
 $(function () {
 	let detailPanel
@@ -45,16 +46,8 @@ $(function () {
 			});
 		}
 	}
-
-	$('#layout').w2layout({
-		name: 'layout',
-		panels: [
-			{
-				type: 'main', style: 'border-top: 0px;', content: '<div id="grid"></div>'
-			}
-		]
-	})
-	w2ui.layout.show('main')
+	let mainPage = new MainPage;
+	mainPage.render();
 
 	$('#grid').w2grid({
 		name: 'grid',
