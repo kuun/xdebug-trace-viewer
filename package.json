@@ -1,88 +1,90 @@
 {
-	"name": "xdebug-trace-viewer",
-	"productName": "Xdebug trace viewer",
-	"version": "0.1.0",
-	"description": "My smashing app",
-	"license": "MIT",
-	"repository": "kuun/xdebug-trace-viewer",
-	"author": {
-		"name": "kuun",
-		"email": "kuunwang@gmail.com",
-		"url": "github.com/kuun"
-	},
-	"scripts": {
-		"postinstall": "electron-builder install-app-deps",
-		"lint": "xo",
-		"test": "npm run lint",
-		"start": "electron .",
-		"pack": "electron-builder --dir",
-		"dist": "electron-builder --macos --linux --windows",
-		"release": "np"
-	},
-	"dependencies": {
-		"backbone": "^1.4.0",
-		"bootstrap-css-only": "^4.3.1",
-		"ejs": "^2.6.2",
-		"electron-context-menu": "^0.12.1",
-		"electron-debug": "^3.0.0",
-		"electron-store": "^3.3.0",
-		"electron-unhandled": "^2.2.0",
-		"electron-updater": "^4.0.6",
-		"electron-util": "^0.12.0",
-		"jquery": "^3.4.1",
-		"jspanel4": "^4.7.0",
-		"underscore": "^1.9.1"
-	},
-	"devDependencies": {
-		"electron": "5.0.9",
-		"electron-builder": "^20.43.0",
-		"eslint": "^6.2.2",
-		"eslint-config-airbnb": "^18.0.1",
-		"eslint-config-airbnb-base": "^14.0.0",
-		"eslint-plugin-import": "^2.18.2",
-		"eslint-plugin-jsx-a11y": "^6.2.3",
-		"eslint-plugin-react": "^7.14.3",
-		"eslint-plugin-react-hooks": "^1.7.0",
-		"np": "^5.0.3",
-		"xo": "^0.24.0"
-	},
-	"xo": {
-		"envs": [
-			"node",
-			"browser"
-		]
-	},
-	"np": {
-		"publish": false,
-		"releaseDraft": false
-	},
-	"build": {
-		"appId": "com.kuun.xdebug-trace-viewer",
-		"mac": {
-			"category": "public.app-category.social-networking",
-			"darkModeSupport": true
-		},
-		"dmg": {
-			"iconSize": 160,
-			"contents": [
-				{
-					"x": 180,
-					"y": 170
-				},
-				{
-					"x": 480,
-					"y": 170,
-					"type": "link",
-					"path": "/Applications"
-				}
-			]
-		},
-		"linux": {
-			"target": [
-				"AppImage",
-				"deb"
-			],
-			"category": "Network;Chat"
-		}
-	}
+  "name": "xdebug-trace-viewer",
+  "productName": "Xdebug trace viewer",
+  "version": "0.1.0",
+  "description": "My smashing app",
+  "license": "MIT",
+  "repository": "kuun/xdebug-trace-viewer",
+  "author": {
+    "name": "kuun",
+    "email": "kuunwang@gmail.com",
+    "url": "github.com/kuun"
+  },
+  "scripts": {
+    "postinstall": "electron-builder install-app-deps",
+    "lint": "xo",
+    "test": "npm run lint",
+    "start": "electron .",
+    "pack": "electron-builder --dir",
+    "linux-dist": "electron-builder --linux 7z",
+    "macos-dist": "electron-builder --macos 7z",
+    "win-dist": "electron-builder --windows 7z",
+    "release": "np"
+  },
+  "dependencies": {
+    "backbone": "^1.4.0",
+    "bootstrap-css-only": "^4.3.1",
+    "ejs": "^2.6.2",
+    "electron-context-menu": "^0.12.1",
+    "electron-debug": "^3.0.0",
+    "electron-store": "^3.3.0",
+    "electron-unhandled": "^2.2.0",
+    "electron-updater": "^4.0.6",
+    "electron-util": "^0.12.0",
+    "jquery": "^3.4.1",
+    "jspanel4": "^4.7.0",
+    "underscore": "^1.9.1"
+  },
+  "devDependencies": {
+    "electron": "5.0.9",
+    "electron-builder": "^20.43.0",
+    "eslint": "^6.2.2",
+    "eslint-config-airbnb": "^18.0.1",
+    "eslint-config-airbnb-base": "^14.0.0",
+    "eslint-plugin-import": "^2.18.2",
+    "eslint-plugin-jsx-a11y": "^6.2.3",
+    "eslint-plugin-react": "^7.14.3",
+    "eslint-plugin-react-hooks": "^1.7.0",
+    "np": "^5.0.3",
+    "xo": "^0.24.0"
+  },
+  "xo": {
+    "envs": [
+      "node",
+      "browser"
+    ]
+  },
+  "np": {
+    "publish": false,
+    "releaseDraft": false
+  },
+  "build": {
+    "appId": "com.kuun.xdebug-trace-viewer",
+    "mac": {
+      "category": "public.app-category.social-networking",
+      "darkModeSupport": true
+    },
+    "dmg": {
+      "iconSize": 160,
+      "contents": [
+        {
+          "x": 180,
+          "y": 170
+        },
+        {
+          "x": 480,
+          "y": 170,
+          "type": "link",
+          "path": "/Applications"
+        }
+      ]
+    },
+    "linux": {
+      "target": [
+        "AppImage",
+        "deb"
+      ],
+      "category": "Network;Chat"
+    }
+  }
 }
