@@ -90,7 +90,7 @@ class RecordTableInfo extends Backbone.Model {
       }
       if (line.startsWith('File format:')) {
         if (line !== 'File format: 4') {
-          throw 'unsupported trace format, trace format must be 4';
+          throw new Error('unsupported trace format, trace format must be 4');
         }
         continue;
       }
