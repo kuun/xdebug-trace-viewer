@@ -1,4 +1,4 @@
-# Xdebug trace viewer
+# Xdebug Trace Viewer
 
 > An xdebug trace viewer build on electron.
 
