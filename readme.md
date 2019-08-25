@@ -7,19 +7,15 @@
 
 *macOS 10.10+, Linux, and Windows 7+ are supported (64-bit only).*
 
-**macOS**
-
-[**Download**](https://github.com/kuun/xdebug-trace-viewer/releases/latest) the `.dmg` file.
-
 **Linux**
 
-[**Download**](https://github.com/kuun/xdebug-trace-viewer/releases/latest) the `.AppImage` or `.deb` file.
+[**Download**](https://github.com/kuun/xdebug-trace-viewer/releases/latest) the `.7z` file.
 
 *The AppImage needs to be [made executable](http://discourse.appimage.org/t/how-to-make-an-appimage-executable/80) after download.*
 
 **Windows**
 
-[**Download**](https://github.com/kuun/xdebug-trace-viewer/releases/latest) the `.exe` file.
+[**Download**](https://github.com/kuun/xdebug-trace-viewer/releases/latest) the `-win.7z` file.
 
 
 ---
