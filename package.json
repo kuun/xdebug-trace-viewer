@@ -1,7 +1,7 @@
 {
 	"name": "xdebug-trace-viwer",
 	"productName": "xdebug-trace-viwer",
-	"version": "0.0.0",
+	"version": "0.1.0",
 	"description": "My smashing app",
 	"license": "MIT",
 	"repository": "kuun/xdebug-trace-viwer",
