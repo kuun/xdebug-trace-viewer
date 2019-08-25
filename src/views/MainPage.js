@@ -1,12 +1,11 @@
 const Backbone = require('backbone');
+const RecordTable = require('./RecordTable');
 
 class MainPage extends Backbone.View {
 	initialize() {
 		this.el = '#layout';
-	}
 
-	render() {
-		$('#layout').w2layout({
+		this.layout = $('#layout').w2layout({
 			name: 'layout',
 			panels: [
 				{
@@ -14,8 +13,10 @@ class MainPage extends Backbone.View {
 				}
 			]
 		});
-		w2ui.layout.show('main');
+		this.layout.show('main');
+		this.recordTable = new RecordTable();
 	}
+
 }
 
 module.exports = MainPage;
