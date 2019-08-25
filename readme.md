@@ -1,6 +1,6 @@
-# xdebug-trace-viwer
+# Xdebug trace viewer
 
-> My smashing app
+> An xdebug trace viewer build on electron.
 
 
 ## Install
@@ -9,17 +9,17 @@
 
 **macOS**
 
-[**Download**](https://github.com/kuun/undefined/releases/latest) the `.dmg` file.
+[**Download**](https://github.com/kuun/xdebug-trace-viewer/releases/latest) the `.dmg` file.
 
 **Linux**
 
-[**Download**](https://github.com/kuun/undefined/releases/latest) the `.AppImage` or `.deb` file.
+[**Download**](https://github.com/kuun/xdebug-trace-viewer/releases/latest) the `.AppImage` or `.deb` file.
 
 *The AppImage needs to be [made executable](http://discourse.appimage.org/t/how-to-make-an-appimage-executable/80) after download.*
 
 **Windows**
 
-[**Download**](https://github.com/kuun/undefined/releases/latest) the `.exe` file.
+[**Download**](https://github.com/kuun/xdebug-trace-viewer/releases/latest) the `.exe` file.
 
 
 ---

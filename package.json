@@ -1,10 +1,10 @@
 {
-	"name": "xdebug-trace-viwer",
-	"productName": "xdebug-trace-viwer",
+	"name": "xdebug-trace-viewer",
+	"productName": "Xdebug trace viewer",
 	"version": "0.1.0",
 	"description": "My smashing app",
 	"license": "MIT",
-	"repository": "kuun/xdebug-trace-viwer",
+	"repository": "kuun/xdebug-trace-viewer",
 	"author": {
 		"name": "kuun",
 		"email": "kuunwang@gmail.com",
@@ -57,7 +57,7 @@
 		"releaseDraft": false
 	},
 	"build": {
-		"appId": "com.kuun.xdebug-trace-viwer",
+		"appId": "com.kuun.xdebug-trace-viewer",
 		"mac": {
 			"category": "public.app-category.social-networking",
 			"darkModeSupport": true

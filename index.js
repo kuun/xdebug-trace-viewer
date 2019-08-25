@@ -12,7 +12,7 @@ debug();
 contextMenu();
 
 // Note: Must match `build.appId` in package.json
-app.setAppUserModelId('com.kuun.xdebug-trace-viwer');
+app.setAppUserModelId('com.kuun.xdebug-trace-viewer');
 
 // Uncomment this before publishing your first version.
 // It's commented out as it throws an error if there are no published versions.

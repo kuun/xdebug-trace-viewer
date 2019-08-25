@@ -46,7 +46,7 @@ if (!is.macos) {
     },
     aboutMenuItem({
       icon: path.join(__dirname, 'static', 'icon.png'),
-      text: 'A Xdebug trace viewer, created by kuun<kuunwang@gmail.com>',
+      text: 'An Xdebug trace viewer, created by kuun<kuunwang@gmail.com>',
     }),
   );
 }
