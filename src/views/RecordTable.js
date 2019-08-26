@@ -34,7 +34,11 @@ class RecordTable extends Backbone.View {
           {
             field: 'timeUsage',
             caption: 'Time Usage',
-            size: '100px',
+            size: '150px',
+            render: (record) => {
+              const percent = (record.timeUsage / RecordTableInfo.totalTime()) * 100;
+              return `${record.timeUsage}s (${percent.toFixed(2)}%)`;
+            },
           },
           {
             field: 'mem',

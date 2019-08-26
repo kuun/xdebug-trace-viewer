@@ -41,10 +41,21 @@ class RecordTableInfo extends Backbone.Model {
     this.set({ selectedRecord });
   }
 
+  totalTime() {
+    return this.get('totalTime');
+  }
+
+  setTotalTime(totalTime) {
+    this.set({ totalTime });
+  }
+
   handleOpenFile() {
     ipcRenderer.on('open-file', async (event, fileName) => {
       const promise = RecordTableInfo.parseTraceFile(fileName);
       promise.then((records) => {
+        if (records.length > 0) {
+          this.setTotalTime(records[0].timeUsage);
+        }
         this.setRecords(records);
       }, (error) => {
         console.log(`can not open trace file: ${fileName}, error: ${error}`);
