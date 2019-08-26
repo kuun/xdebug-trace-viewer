@@ -71,7 +71,7 @@ class RecordTableInfo extends Backbone.Model {
       callInfo.time = fields[3];
       callInfo.mem = fields[4];
     } else {
-      callInfo.returnVal = fields[3];
+      callInfo.returnVal = fields[5];
     }
     return callInfo;
   }
