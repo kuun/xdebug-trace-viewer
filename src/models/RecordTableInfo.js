@@ -8,11 +8,12 @@ class RecordTableInfo extends Backbone.Model {
     this.handleOpenFile();
   }
 
-  defaults() {
+  static defaults() {
     return {
       showDetail: false,
       records: [],
       selectedRecord: null,
+      totalTime: 0,
     };
   }
 
@@ -42,12 +43,16 @@ class RecordTableInfo extends Backbone.Model {
 
   handleOpenFile() {
     ipcRenderer.on('open-file', async (event, fileName) => {
-      const records = await this.parseTraceFile(fileName);
-      this.setRecords(records);
+      const promise = RecordTableInfo.parseTraceFile(fileName);
+      promise.then((records) => {
+        this.setRecords(records);
+      }, (error) => {
+        console.log(`can not open trace file: ${fileName}, error: ${error}`);
+      });
     });
   }
 
-  parseLine(line) {
+  static parseLine(line) {
     const fields = line.split('\t', 30);
     const callInfo = {
       level: parseInt(fields[0]),
@@ -76,72 +81,84 @@ class RecordTableInfo extends Backbone.Model {
     return callInfo;
   }
 
-  async parseTraceFile(fileName) {
+  static parseTraceFile(fileName) {
     const records = [];
     const stack = [];
     let nextRecordId = 1;
     const lineReader = readline.createInterface({
       input: fs.createReadStream(fileName),
       crlfDelay: Infinity,
+      console: false,
     });
-    for await (const line of lineReader) {
-      if (line.startsWith('Version: ')) {
-        continue;
-      }
-      if (line.startsWith('File format:')) {
-        if (line !== 'File format: 4') {
-          throw new Error('unsupported trace format, trace format must be 4');
+    return new Promise((resolve, reject) => {
+      lineReader.on('line', (line) => {
+        if (line.startsWith('Version: ')) {
+          return;
         }
-        continue;
-      }
-      if (line.startsWith('TRACE START')) {
-        continue;
-      }
-      if (!line.match(/^\d+\t\d+\t/)) {
-        console.log(`skip invalid line: ${line}`);
-        continue;
-      }
+        if (line.startsWith('File format:')) {
+          if (line !== 'File format: 4') {
+            reject(new Error('unsupported trace format, trace format must be 4'));
+          }
+          return;
+        }
+        if (line.startsWith('TRACE START')) {
+          return;
+        }
+        if (!line.match(/^\d+\t\d+\t/)) {
+          console.log(`skip invalid line: ${line}`);
+          return;
+        }
 
-      const callInfo = this.parseLine(line);
-      callInfo.w2ui = { children: [] };
-      let lastCall;
-      if (stack.length > 0) {
+        const callInfo = RecordTableInfo.parseLine(line);
+        callInfo.w2ui = { children: [] };
+        if (callInfo.funcState === '0') {
+          callInfo.recid = nextRecordId;
+          nextRecordId += 1;
+        }
+        RecordTableInfo.addToRecordTree(records, stack, callInfo);
+      });
+      lineReader.on('close', () => {
+        resolve(records);
+      });
+    });
+  }
+
+  static addToRecordTree(records, stack, callInfo) {
+    let lastCall;
+
+    if (stack.length > 0) {
+      lastCall = stack[stack.length - 1];
+    }
+    if (callInfo.funcState === '0') {
+      if (lastCall) {
+        if (callInfo.level === lastCall.level) {
+          callInfo.caller = lastCall.caller;
+        } else {
+          callInfo.caller = lastCall;
+        }
+      }
+      if (!callInfo.caller) {
+        records.push(callInfo);
+      } else {
+        callInfo.caller.w2ui.children.push(callInfo);
+      }
+      stack.push(callInfo);
+    } else if (callInfo.funcState === '1') {
+      while (callInfo.funcNumber !== lastCall.funcNumber && lastCall.exit) {
+        stack.pop();
         lastCall = stack[stack.length - 1];
       }
-      if (callInfo.funcState === '0') {
-        callInfo.recid = nextRecordId++;
-        if (lastCall) {
-          if (callInfo.level === lastCall.level) {
-            callInfo.caller = lastCall.caller;
-          } else {
-            callInfo.caller = lastCall;
-          }
-        }
-        if (!callInfo.caller) {
-          records.push(callInfo);
-        } else {
-          callInfo.caller.w2ui.children.push(callInfo);
-        }
-        stack.push(callInfo);
-      } else if (callInfo.funcState === '1') {
-        while (callInfo.funcNumber !== lastCall.funcNumber && lastCall.exit) {
-          stack.pop();
-          lastCall = stack[stack.length - 1];
-        }
-        lastCall.timeUsage = (callInfo.time - lastCall.time).toFixed(6);
-        lastCall.memDelta = callInfo.mem - lastCall.mem;
-        lastCall.exit = true;
-      } else {
-        while (callInfo.funcNumber !== lastCall.funcNumber && lastCall.exit) {
-          stack.pop();
-          lastCall = stack[stack.length - 1];
-        }
-        lastCall.returnVal = callInfo.returnVal;
+      lastCall.timeUsage = (callInfo.time - lastCall.time).toFixed(6);
+      lastCall.memDelta = callInfo.mem - lastCall.mem;
+      lastCall.exit = true;
+    } else {
+      while (callInfo.funcNumber !== lastCall.funcNumber && lastCall.exit) {
         stack.pop();
+        lastCall = stack[stack.length - 1];
       }
+      lastCall.returnVal = callInfo.returnVal;
+      stack.pop();
     }
-    lineReader.close();
-    return records;
   }
 }
 
