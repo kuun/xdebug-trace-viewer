@@ -25,6 +25,12 @@
 
 Built with [Electron](https://electronjs.org).
 
+### Prepare
+
+```
+$ npm install gulp-cli -g
+```
+
 ### Run
 
 ```
