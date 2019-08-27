@@ -1,4 +1,3 @@
-
 const path = require('path');
 const {
   app, Menu, shell, dialog,
@@ -123,7 +122,19 @@ const macosTemplate = [
 
 function selectTraceFile() {
   dialog.showOpenDialog(
-    { properties: ['openFile'] },
+    {
+      properties: ['openFile'],
+      filters: [
+        {
+          name: 'Trace Files',
+          extensions: ['xt'],
+        },
+        {
+          name: 'All Files',
+          extensions: ['*'],
+        },
+      ],
+    },
     (fileNames) => {
       if (fileNames && fileNames.length > 0) {
         const fileName = fileNames[0];
