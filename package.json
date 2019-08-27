@@ -1,8 +1,8 @@
 {
   "name": "xdebug-trace-viewer",
   "productName": "XdebugTraceViewer",
-  "version": "0.1.0",
-  "description": "My smashing app",
+  "version": "0.1.1",
+  "description": "An xdebug trace viewer",
   "license": "MIT",
   "repository": "kuun/xdebug-trace-viewer",
   "author": {
