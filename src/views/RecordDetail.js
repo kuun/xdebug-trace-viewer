@@ -1,5 +1,6 @@
 const Backbone = require('backbone');
 const ejs = require('ejs');
+const Templates = require('../templates/templates');
 
 class RecordDetail extends Backbone.View {
   initialize() {
@@ -50,14 +51,8 @@ class RecordDetail extends Backbone.View {
   }
 
   renderDetail() {
-    ejs.renderFile('src/views/FunctionCallDetails.ejs', { record: this.model.selectedRecord() }, { root: 'src' }, (err, str) => {
-      if (err) {
-        console.log('failed to render template, ', err);
-        return;
-      }
-      $('#functionDetails')
-        .html(str);
-    });
+    const content = Templates.FunctionCallDetail({ record: this.model.selectedRecord() });
+    $('#functionDetails').html(content);
   }
 }
 
