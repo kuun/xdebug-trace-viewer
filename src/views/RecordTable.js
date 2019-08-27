@@ -37,12 +37,14 @@ class RecordTable extends Backbone.View {
           {
             field: 'funcNumber',
             caption: 'Function Number',
-            size: '100px',
+            size: '115px',
+            sortable: true,
           },
           {
             field: 'time',
             caption: 'Time',
             size: '100px',
+            sortable: true,
           },
           {
             field: 'timeUsage',
@@ -52,6 +54,7 @@ class RecordTable extends Backbone.View {
               const percent = (record.timeUsage / RecordTableInfo.totalTime()) * 100;
               return `${record.timeUsage}s (${percent.toFixed(2)}%)`;
             },
+            sortable: true,
           },
           {
             field: 'mem',
@@ -67,6 +70,7 @@ class RecordTable extends Backbone.View {
             field: 'function',
             caption: 'Function',
             size: '30%',
+            sortable: true,
           },
           {
             field: 'isUserDefined',
