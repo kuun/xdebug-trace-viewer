@@ -15,6 +15,19 @@ class RecordTable extends Backbone.View {
           toolbar: true,
           footer: true,
         },
+        multiSearch: true,
+        searches: [
+          {
+            field: 'function',
+            caption: 'Function',
+            type: 'text',
+          },
+          {
+            field: 'file',
+            caption: 'File',
+            type: 'text',
+          },
+        ],
         columns: [
           {
             field: 'level',
@@ -94,7 +107,7 @@ class RecordTable extends Backbone.View {
   }
 
   onSelect(event) {
-    const record = w2ui.grid.get(event.recid);
+    const record = this.grid.get(event.recid);
     this.model.setSelectedRecord(record);
   }
 
