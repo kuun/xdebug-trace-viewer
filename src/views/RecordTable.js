@@ -30,9 +30,10 @@ class RecordTable extends Backbone.View {
         ],
         columns: [
           {
-            field: 'level',
-            caption: 'Level',
-            size: '150px',
+            field: 'function',
+            caption: 'Function',
+            size: '30%',
+            sortable: true,
           },
           {
             field: 'funcNumber',
@@ -65,12 +66,6 @@ class RecordTable extends Backbone.View {
             field: 'memDelta',
             caption: 'Mem Delta',
             size: '100px',
-          },
-          {
-            field: 'function',
-            caption: 'Function',
-            size: '30%',
-            sortable: true,
           },
           {
             field: 'isUserDefined',
