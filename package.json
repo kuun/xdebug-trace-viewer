@@ -19,7 +19,8 @@
     "linux-dist": "electron-builder --linux 7z",
     "macos-dist": "electron-builder --macos 7z",
     "win-dist": "electron-builder --windows 7z",
-    "release": "np"
+    "release": "np",
+    "ejs": "gulp ejsCompile"
   },
   "dependencies": {
     "backbone": "^1.4.0",
@@ -33,7 +34,7 @@
     "electron-util": "^0.12.0",
     "jquery": "^3.4.1",
     "jspanel4": "^4.7.0",
-    "underscore": "^1.9.1"
+    "lodash": "^4.17.15"
   },
   "devDependencies": {
     "electron": "5.0.9",
@@ -45,6 +46,7 @@
     "eslint-plugin-jsx-a11y": "^6.2.3",
     "eslint-plugin-react": "^7.14.3",
     "eslint-plugin-react-hooks": "^1.7.0",
+    "gulp": "^4.0.2",
     "np": "^5.0.3",
     "xo": "^0.24.0"
   },
