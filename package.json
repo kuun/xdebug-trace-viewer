@@ -1,7 +1,7 @@
 {
   "name": "xdebug-trace-viewer",
   "productName": "XdebugTraceViewer",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "An xdebug trace viewer",
   "license": "MIT",
   "repository": "kuun/xdebug-trace-viewer",
@@ -16,9 +16,10 @@
     "test": "npm run lint",
     "start": "npm run ejs && electron .",
     "pack": "electron-builder --dir",
-    "linux-dist": "npm run ejs && electron-builder --linux 7z",
-    "macos-dist": "npm run ejs && electron-builder --macos 7z",
-    "win-dist": "npm run ejs && electron-builder --windows 7z",
+    "linux-dist": "electron-builder --linux 7z",
+    "macos-dist": "electron-builder --macos 7z",
+    "win-dist": "electron-builder --windows 7z",
+    "dist": "npm run ejs && npm run win-dist && npm run linux-dist",
     "release": "np",
     "ejs": "gulp ejsCompile"
   },
