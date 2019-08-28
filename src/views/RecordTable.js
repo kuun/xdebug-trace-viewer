@@ -1,6 +1,7 @@
 const Backbone = require('backbone');
 const RecordTableInfo = require('../models/RecordTableInfo');
 const RecordDetail = require('./RecordDetail');
+const _ = require('lodash');
 
 class RecordTable extends Backbone.View {
   initialize() {
@@ -14,8 +15,8 @@ class RecordTable extends Backbone.View {
         show: {
           toolbar: true,
           footer: true,
+          toolbarSearch: false,
         },
-        multiSearch: true,
         searches: [
           {
             field: 'function',
@@ -97,6 +98,7 @@ class RecordTable extends Backbone.View {
           tooltip: 'bottom',
         },
         onSelect: (event) => this.onSelect(event),
+        onSearch: (event) => RecordTable.onSearch(event),
       });
     this.grid.refresh();
 
@@ -118,6 +120,13 @@ class RecordTable extends Backbone.View {
     this.grid.clear();
     this.grid.add(this.model.records());
     this.grid.refresh();
+  }
+
+  static onSearch(event) {
+    _.each(event.searchData, (data) => {
+      // eslint-disable-next-line no-param-reassign
+      data.operator = 'contains';
+    });
   }
 }
 
