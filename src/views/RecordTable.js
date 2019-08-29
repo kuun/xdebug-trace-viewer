@@ -1,6 +1,7 @@
 const Backbone = require('backbone');
 const RecordTableInfo = require('../models/RecordTableInfo');
 const RecordDetail = require('./RecordDetail');
+const StatisticsTable = require('./StatisticsTable');
 const _ = require('lodash');
 
 class RecordTable extends Backbone.View {
@@ -54,7 +55,7 @@ class RecordTable extends Backbone.View {
             size: '150px',
             render: (record) => {
               const percent = (record.timeUsage / RecordTableInfo.totalTime()) * 100;
-              return `${record.timeUsage}s (${percent.toFixed(2)}%)`;
+              return `${record.timeUsage.toFixed(6)}s (${percent.toFixed(2)}%)`;
             },
             sortable: true,
           },
@@ -90,10 +91,16 @@ class RecordTable extends Backbone.View {
             {
               type: 'check',
               id: 'showDetail',
-              caption: w2utils.lang('Details'),
-              hint: w2utils.lang('Show function call details'),
+              caption: 'Details',
+              hint: 'Show function call details',
               onClick: () => this.onDetailClick(),
             },
+            {
+              type: 'button',
+              caption: 'Statistics',
+              hint: 'Show time usage statistics',
+              onClick: () => new StatisticsTable(this.model),
+            }
           ],
           tooltip: 'bottom',
         },

@@ -159,7 +159,7 @@ class RecordTableInfo extends Backbone.Model {
         stack.pop();
         lastCall = stack[stack.length - 1];
       }
-      lastCall.timeUsage = (callInfo.time - lastCall.time).toFixed(6);
+      lastCall.timeUsage = callInfo.time - lastCall.time;
       lastCall.memDelta = callInfo.mem - lastCall.mem;
       lastCall.exit = true;
     } else {
