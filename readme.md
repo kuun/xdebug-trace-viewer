@@ -86,7 +86,7 @@ Fellow [Xdebug offical installation documentation](https://xdebug.org/docs/insta
 
 ### Config Xdebug
 
-`Note:` Now XdebugTraceViewer only support computerize format, so `trace_format` must be 1, read more abort [trace_format](https://xdebug.org/docs/all_settings#trace_format).
+`Note:` Now XdebugTraceViewer only support computerize format, so `trace_format` must be 1, read more about [trace_format](https://xdebug.org/docs/all_settings#trace_format).
 
 ```ini
 xdebug.trace_format = 1
@@ -124,4 +124,4 @@ Format trace file name as you want:
 xdebug.trace_output_name = trace.%p.%t
 ```
 
-More abort Xdebug settings, please reference [offical documentation](https://xdebug.org/docs/all_settings).
+More about Xdebug settings, please reference [offical documentation](https://xdebug.org/docs/all_settings).
