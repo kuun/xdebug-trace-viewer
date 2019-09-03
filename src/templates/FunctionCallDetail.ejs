@@ -6,19 +6,19 @@
 	</tr>
 	<tr>
 		<th scope="row">Start time</th>
-		<td><%= record.time %></td>
+		<td><%= record.time %> s</td>
 	</tr>
 	<tr>
 		<th scope="row">Time usage</th>
-		<td><%= record.timeUsage %></td>
+		<td><%= record.timeUsage.toFixed(6) %> s</td>
 	</tr>
 	<tr>
 		<th scope="row">Current memory</th>
-		<td><%= record.mem %></td>
+		<td><%= record.mem %> B</td>
 	</tr>
 	<tr>
 		<th scope="row">Memory delta</th>
-		<td><%= record.memDelta %></td>
+		<td><%= record.memDelta %> B</td>
 	</tr>
 	<tr>
 		<th scope="row">User function</th>
