@@ -64,6 +64,7 @@ class StatisticsTable extends Backbone.View {
           caption: 'User Defined',
           size: '100px',
           sortable: true,
+          render: (record) => (record.isUserDefined ? 'Yes' : 'No'),
         },
       ],
       onSearch: (event) => StatisticsTable.onSearch(event),

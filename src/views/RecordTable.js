@@ -73,6 +73,7 @@ class RecordTable extends Backbone.View {
             field: 'isUserDefined',
             caption: 'User Defined',
             size: '100px',
+            render: (record) => (record.isUserDefined ? 'Yes' : 'No'),
           },
           {
             field: 'file',
