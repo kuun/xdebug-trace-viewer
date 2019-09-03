@@ -76,6 +76,8 @@ $ npm run ejs
 $ npm run win-dist
 # for linux
 $ npm run linux-dist
+# for macos
+$ npm run macos-dist
 ```
 
 ## How to get trace
