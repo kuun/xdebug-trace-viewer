@@ -1,7 +1,7 @@
 {
   "name": "xdebug-trace-viewer",
   "productName": "XdebugTraceViewer",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "An xdebug trace viewer",
   "license": "MIT",
   "repository": "kuun/xdebug-trace-viewer",
