@@ -32,7 +32,7 @@ class RecordDetail extends Backbone.View {
         headerTitle: 'Function call details',
         theme: 'light',
         position: 'right-bottom',
-        contentSize: '550 700',
+        contentSize: '550 600',
         contentOverflow: 'auto',
         headerControls: 'closeonly xs',
         content: '<div id="functionDetails"></div>',

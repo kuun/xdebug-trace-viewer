@@ -33,7 +33,7 @@ const createMainWindow = async () => {
     title: app.getName(),
     show: false,
     width: 1000,
-    height: 600,
+    height: 800,
     webPreferences: {
       nodeIntegration: true,
     },
