@@ -2,21 +2,50 @@
 
 > An xdebug trace viewer build on electron.
 
+## Features
+
+* Show funcion calls in tree style.
+* Statistic time usage for functions.
+* Search by function name or file name.
+* Show function memory usage.
+* Show function call details, include arguments and return value.
+* Support multiple platforms.
+
+## Snapshot
+
+* Order by function call index
+
+![alt text](https://github.com/kuun/xdebug-trace-viewer/raw/master/snapshots/order-by-call-index.png)
+
+* Order by time usage
+
+![alt text](https://github.com/kuun/xdebug-trace-viewer/raw/master/snapshots/order-by-time-usage.png)
+
+* Show function details
+
+![alt text](https://github.com/kuun/xdebug-trace-viewer/raw/master/snapshots/function-details.png)
+
+* Statistic time usage
+
+![alt text](https://github.com/kuun/xdebug-trace-viewer/raw/master/snapshots/time-usage-statistic.png)
+
+
 
 ## Install
 
-*macOS 10.10+, Linux, and Windows 7+ are supported (64-bit only).*
+*Linux, Windows 7+ are supported (64-bit only) and macOS 10.10+.*
 
 **Linux**
 
 [**Download**](https://github.com/kuun/xdebug-trace-viewer/releases/latest) the `.7z` file.
 
-*The AppImage needs to be [made executable](http://discourse.appimage.org/t/how-to-make-an-appimage-executable/80) after download.*
-
 **Windows**
 
 [**Download**](https://github.com/kuun/xdebug-trace-viewer/releases/latest) the `-win.7z` file.
 
+**macOS**
+
+I don't have macOS, please build it by yourself.
 
 ---
 
@@ -89,14 +118,10 @@ xdebug.collect_params=4
 xdebug.collect_return=0
 ```
 
-To get memory usage delta information between function calls, enable `show_mem_delta`.
-
-```ini
-xdebug.show_mem_delta = 1
-```
-
-Format trace file name as you wart:
+Format trace file name as you want:
 
 ```ini
 xdebug.trace_output_name = trace.%p.%t
 ```
+
+More abort Xdebug settings, please reference [offical documentation](https://xdebug.org/docs/all_settings).
