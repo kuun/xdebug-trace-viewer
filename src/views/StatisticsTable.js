@@ -96,7 +96,9 @@ class StatisticsTable extends Backbone.View {
           isUserDefined: record.isUserDefined,
         };
       } else {
-        timeUsage.timeUsage += record.timeUsage;
+        if (!StatisticsTable.isRecursiveCall(record)) {
+          timeUsage.timeUsage += record.timeUsage;
+        }
         timeUsage.calledCount += 1;
       }
       // eslint-disable-next-line no-param-reassign
@@ -105,6 +107,25 @@ class StatisticsTable extends Backbone.View {
         this.calculateTimeUsage(record.w2ui.children, timeUsageMap);
       }
     });
+  }
+
+  static isRecursiveCall(record) {
+    const { caller } = record;
+    if (!caller) {
+      return false;
+    }
+    return StatisticsTable.isFuncSameWithCaller(caller, record.function);
+  }
+
+  static isFuncSameWithCaller(record, funcName) {
+    if (record.function === funcName) {
+      return true;
+    }
+    const { caller } = record;
+    if (!caller) {
+      return false;
+    }
+    return StatisticsTable.isFuncSameWithCaller(caller, funcName);
   }
 
   static onSearch(event) {
