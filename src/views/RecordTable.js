@@ -54,7 +54,11 @@ class RecordTable extends Backbone.View {
             caption: 'Time Usage',
             size: '150px',
             render: (record) => {
-              const percent = (record.timeUsage / RecordTableInfo.totalTime()) * 100;
+              if (!record.timeUsage) {
+                return '';
+              }
+              const total_time = RecordTableInfo.totalTime();
+              const percent = total_time > 0 ? (record.timeUsage / total_time) * 100 : 0;
               return `${record.timeUsage.toFixed(6)}s (${percent.toFixed(2)}%)`;
             },
             sortable: true,

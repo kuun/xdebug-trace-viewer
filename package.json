@@ -68,7 +68,7 @@
       "darkModeSupport": true
     },
     "dmg": {
-      "iconSize": 160,
+      "iconSize": 512,
       "contents": [
         {
           "x": 180,

@@ -98,13 +98,8 @@ const macosTemplate = [
     role: 'fileMenu',
     submenu: [
       {
-        label: 'Custom',
-      },
-      {
-        type: 'separator',
-      },
-      {
-        role: 'close',
+        label: 'Open file',
+        click: () => selectTraceFile(),
       },
     ],
   },

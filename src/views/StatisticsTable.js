@@ -48,6 +48,9 @@ class StatisticsTable extends Backbone.View {
           caption: 'Time Usage',
           size: '180px',
           render: (record) => {
+            if (!record.timeUsage) {
+              return '';
+            }
             const percent = (record.timeUsage / this.model.totalTime()) * 100;
             return `${record.timeUsage.toFixed(6)}s (${percent.toFixed(2)}%)`;
           },
